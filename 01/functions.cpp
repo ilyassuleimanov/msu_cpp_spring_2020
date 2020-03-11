@@ -8,8 +8,13 @@ size_t num_bites;
 
 void makeAllocator(size_t max_Size) {
 	start = (char*) std::malloc(max_Size);
-	right = start;
-	num_bites = max_Size;
+	if (start == NULL) {
+		throw "Error";
+	}
+	else {
+		right = start;
+		num_bites = max_Size;
+	}
 }
 
 char* alloc(size_t size) {

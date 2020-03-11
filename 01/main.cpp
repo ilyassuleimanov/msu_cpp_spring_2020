@@ -3,7 +3,12 @@
 
 
 int main() {
-	makeAllocator(1024);
+	try {
+		makeAllocator(1024);
+	}
+	catch(const char* str) {
+		std::cout << str << "\n";
+	}
 	std::cout << "starting test:\n";
 	char* p1 = alloc(200);
 	char* p2 = alloc(500);
