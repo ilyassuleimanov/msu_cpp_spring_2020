@@ -21,31 +21,26 @@ void register_on_stop(on_start_or_stop callback) {
 	stop_callback = callback;
 }
 
-bool is_sep (const char& s) {
-	return ((s == ' ') || (s == '\n') || (s == '\t'));
-}
-
 void parse(const std::string& text, std::vector<std::string>& vec) {
 	if (!(start_callback && stop_callback && num_callback && str_callback)) return;
 	start_callback();	
-	int curr_pos = 0;
+	size_t curr_pos = 0;
 	while (curr_pos < text.length()) {
-		int offset = 0;
-		while (is_sep(text[curr_pos])) ++curr_pos;
+		size_t offset = 0;
+		while (std::isspace(text[curr_pos])) ++curr_pos;
 		if (std::isdigit(text[curr_pos])) {
 			while (std::isdigit(text[curr_pos + offset])) {
 				++offset;
 			}
-			num_callback(text.substr(curr_pos, offset));
-			vec.push_back(text.substr(curr_pos, offset));
+			auto tmp = std::stoi(text.substr(curr_pos, offset));
+			num_callback(tmp, vec);
 			curr_pos += offset;
 		}
 		else {
-			while ((!std::isdigit(text[curr_pos + offset])) && (!is_sep(text[curr_pos + offset]))) {
+			while ((!std::isdigit(text[curr_pos + offset])) && (!std::isspace(text[curr_pos + offset]))) {
 				++offset;
 			}
-			str_callback(text.substr(curr_pos, offset));
-			vec.push_back(text.substr(curr_pos, offset));
+			str_callback(text.substr(curr_pos, offset), vec);
 			curr_pos += offset;
 		}
 	}

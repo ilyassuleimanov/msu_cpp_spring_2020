@@ -8,22 +8,22 @@ void Stop_callback(void) {
 	std::cout << "Stopped parsing\n";
 }
 
-void Str_callback(const std::string& str) {
+void Str_callback(const std::string& str, std::vector<std::string>& vec) {
+	vec.push_back(str);
 	std::cout << str << "\n";
 }
 
-void Num_callback(const std::string& num) {
+void Num_callback(int num, std::vector<std::string>& vec) {
+	vec.push_back(std::to_string(num));
 	std::cout << num << "\n";
 }
-
-
 
 int main() {
 	register_on_num(Num_callback);
 	register_on_str(Str_callback);
 	register_on_start(Start_callback);
 	register_on_stop(Stop_callback);
-	if (!(start_callback && stop_callback && num_callback && str_callback)) {
+	if (!(Start_callback && Stop_callback && Num_callback && Str_callback)) {
 		std::cout << "error";
 		return 1;
 	}
