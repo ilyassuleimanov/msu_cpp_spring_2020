@@ -38,7 +38,7 @@ int main() {
 		assert(vec[i] == vec1[i]);
 	}
 	
-std::cout << "all tests passed\n";
+	std::cout << "all tests passed\n";
 
 	return 0;
 }
