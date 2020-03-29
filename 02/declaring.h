@@ -2,11 +2,13 @@
 #include <string>
 #include <vector>
 #include <cctype>
+#include <functional>
+#include <cassert>
 #pragma once
 
-using on_number = void (*) (int num);
-using on_str = void (*) (const std::string& str);
 using on_start_or_stop = void (*) (void);
+using on_number = std::function<void(int)>;
+using on_str = std::function<void(const std::string&)>;
 
 void register_on_num (on_number callback);
 void register_on_str (on_str callback);

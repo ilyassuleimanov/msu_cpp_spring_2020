@@ -1,8 +1,5 @@
 #include "declaring.h"
 
-int num_letters = 0;
-int num_numbers = 0;
-
 void Start_callback(void) {
 	std::cout << "Started parsing\n";
 }
@@ -11,15 +8,17 @@ void Stop_callback(void) {
 	std::cout << "Stopped parsing\n";
 }
 
-void Str_callback(const std::string& str) {
-	std::cout << str << "\n";
-	num_letters += 1;
-}
+std::vector<std::string> vec;
 
-void Num_callback(int num) {
+on_number Num_callback = [=] (int num) {
+	vec.push_back(std::to_string(num));
 	std::cout << num << "\n";
-	num_numbers += 1;
-}
+};
+
+on_str Str_callback = [=] (const std::string& str) {
+	vec.push_back(str);
+	std::cout << str << "\n";
+};
 
 int main() {
 	register_on_num(Num_callback);
@@ -34,16 +33,11 @@ int main() {
 		
 	std::string s("   jd  yh292222nxm    \t7fh\n  \t\t  55");
 	parse(s);
-
-	if (num_letters != 4) {
-		std::cout << "error";
-		return 1;
+	std::vector<std::string> vec1 = {"jd", "yh", "292222", "nxm", "7", "fh", "55"};
+	for (int i = 0; i != 7; ++i) {
+		assert(vec[i] == vec1[i]);
 	}
-	if (num_numbers != 3) {
-		std::cout << "error";
-		return 1;
-	}
-
+	
 std::cout << "all tests passed\n";
 
 	return 0;
