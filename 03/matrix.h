@@ -19,8 +19,8 @@ class Matrix {
 		size_t getRows();
 		size_t getCols();
 		Matrix& operator*= (int k);
-		bool operator== (Matrix& m);
-		bool operator!= (Matrix& m);
+		bool operator== (const Matrix& m);
+		bool operator!= (const Matrix& m);
 		Proxy operator[] (size_t i);
 		~Matrix();
 };

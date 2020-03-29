@@ -1,4 +1,4 @@
-#include "declaring.h"
+#include "matrix.h"
 
 int main() {
 	Matrix m(3, 3);
@@ -24,6 +24,5 @@ int main() {
 	assert((m.getRows() == 3) && (m.getCols() == 3));
 	std::cout << "Test 4 passed\n";
 	std::cout << "All tests successfully passed\n";
-
 	return 0;
 }
