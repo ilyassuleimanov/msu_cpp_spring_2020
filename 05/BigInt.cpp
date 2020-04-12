@@ -60,7 +60,6 @@ bool BigInt::isSmaller(const char* str1, const char* str2) { // comparing module
 } 
 
 BigInt BigInt::subtract(const BigInt& num1, const BigInt& num2) {
- 
     char* str1 = num1.number;
     char* str2 = num2.number;
     if (isSmaller(str1, str2)) {
