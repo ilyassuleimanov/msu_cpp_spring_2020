@@ -12,6 +12,6 @@ int main() {
     string = format("abcd {3} {1}.", 1, "abcd", 1, 4);
     assert(string == "abcd 4 abcd.");
     std::cout << "\nTest 3 passed.";
-    std::cout << "\nAll tests successfully passed\n";
+    std::cout << "\nAll tests successfully passed\n"; 
 	return 0;
 }
