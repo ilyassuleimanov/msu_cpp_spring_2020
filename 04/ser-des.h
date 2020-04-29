@@ -45,7 +45,7 @@ class Serializer {
 	        else
 	            return Error::CorruptedArchive;
 	    }
-	    
+	     
 	    Error print(bool a) {
 	    	if (a) out_ << "true" << Separator;
 	    	else out_ << "false" << Separator;
