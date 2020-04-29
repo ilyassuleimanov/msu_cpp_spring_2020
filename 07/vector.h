@@ -9,7 +9,7 @@ class vector {
 	using Iterator = iterator<T>;	
 	public:
 
-        vector(size_t num) : size_(num), data(alloc.allocate(num)) {}	
+		vector(size_t num) : size_(num), data(alloc.allocate(num)) {}	
 		vector(size_t num, const T& val) : size_(num), data(alloc.allocate(num)) {
 			for (size_t i = 0; i != num; ++i) {
 				alloc.construct(data + i, val);
