@@ -4,7 +4,7 @@ on_number num_callback;
 on_str str_callback;
 on_start_or_stop start_callback;
 on_start_or_stop stop_callback;
-
+ 
 void register_on_num (on_number callback) {
 	num_callback = callback;
 }
