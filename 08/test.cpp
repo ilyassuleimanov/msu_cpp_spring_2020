@@ -1,17 +1,17 @@
 #include "ThreadPool.h"
 
 int f1(int a) {
-	std::cout << "Test number 1\n";
+    std::cout << "Test number 1\n";
     return a * 10;
 }
 
 int f2(int a, int b, int c) {
-	std::cout << "Test number 2\n";
+    std::cout << "Test number 2\n";
     return (a + b - c) * 10;
 }
 
 int f3(std::string str){
-	std::cout << "Test number 3\n";
+    std::cout << "Test number 3\n";
     return str.length();
 }
 
