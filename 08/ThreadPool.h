@@ -41,12 +41,12 @@ class ThreadPool {
 			for (auto& t : threads)
 				t.join();
 		}
-	    template <class Func, class... Args>
-	    auto exec(Func func, Args... args) -> std::future<decltype(func(args...))>{
-	        std::unique_lock<std::mutex> lock(mut);
-	        auto task = std::make_shared<std::packaged_task<decltype(func(args...))()>>(std::bind(func, args...));
-	        tasks.push([task](){(*task)();});
-	        cv.notify_one();
-	        return task->get_future();
-	    }
+		template <class Func, class... Args>
+		auto exec(Func func, Args... args) -> std::future<decltype(func(args...))>{
+		    std::unique_lock<std::mutex> lock(mut);
+		    auto task = std::make_shared<std::packaged_task<decltype(func(args...))()>>(std::bind(func, args...));
+		    tasks.push([task](){(*task)();});
+		    cv.notify_one();
+		    return task->get_future();
+		}
 };
