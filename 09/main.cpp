@@ -38,26 +38,26 @@ f_class& Merge_Files(f_class& left, f_class& right, uint64_t mark) {
 	left.reading.read(reinterpret_cast<char *> (&left_num), sizeof(uint64_t));
 	right.reading.read(reinterpret_cast<char *> (&right_num), sizeof(uint64_t));
 	while (leftLen && rightLen) {
-	    if (left_num <= right_num) {
-	        write_data.write(reinterpret_cast<char *> (&left_num), sizeof(uint64_t));
-	        left.reading.read(reinterpret_cast<char *> (&left_num), sizeof(uint64_t));
-	        --leftLen;
-	    }
-	    else {
-	        write_data.write(reinterpret_cast<char *> (&right_num), sizeof(uint64_t));
-	        right.reading.read(reinterpret_cast<char *> (&right_num), sizeof(uint64_t));
-	        --rightLen;
-	    }
+		if (left_num <= right_num) {
+			write_data.write(reinterpret_cast<char *> (&left_num), sizeof(uint64_t));
+			left.reading.read(reinterpret_cast<char *> (&left_num), sizeof(uint64_t));
+			--leftLen;
+		}
+		else {
+			write_data.write(reinterpret_cast<char *> (&right_num), sizeof(uint64_t));
+			right.reading.read(reinterpret_cast<char *> (&right_num), sizeof(uint64_t));
+			--rightLen;
+		}
 	}
 	while (leftLen) {
-	    left.reading.read(reinterpret_cast<char *> (&left_num), sizeof(uint64_t));
+		left.reading.read(reinterpret_cast<char *> (&left_num), sizeof(uint64_t));
 		write_data.write(reinterpret_cast<char *> (&left_num), sizeof(uint64_t));
 		--leftLen;
 	}
 	while (rightLen) {
-	    right.reading.read(reinterpret_cast<char *> (&right_num), sizeof(uint64_t));
-	    write_data.write(reinterpret_cast<char *> (&right_num), sizeof(uint64_t));
-	    --rightLen;
+		right.reading.read(reinterpret_cast<char *> (&right_num), sizeof(uint64_t));
+		write_data.write(reinterpret_cast<char *> (&right_num), sizeof(uint64_t));
+		--rightLen;
 	}
 	left.reading.close();
 	right.reading.close();
@@ -65,9 +65,9 @@ f_class& Merge_Files(f_class& left, f_class& right, uint64_t mark) {
 	std::ifstream readBox(name, std::ios_base::binary);
 	left.writing.open(left.name, std::ios_base::binary);
 	while (allLen) {
-	    readBox.read(reinterpret_cast<char *> (&left_num), sizeof(uint64_t));
-	    left.writing.write(reinterpret_cast<char *> (&left_num), sizeof(uint64_t));
-	    --allLen;
+		readBox.read(reinterpret_cast<char *> (&left_num), sizeof(uint64_t));
+		left.writing.write(reinterpret_cast<char *> (&left_num), sizeof(uint64_t));
+		--allLen;
 	}
 	readBox.close();
 	left.writing.close();
