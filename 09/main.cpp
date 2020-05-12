@@ -160,12 +160,12 @@ int main() {
 		++file_num; 
 	std::vector<f_class> files = make_files(file_num);
 	if (file_num != 1) {
-	    uint64_t m = file_num / 2 - 1;
-	    std::thread left(Sort_Files, std::ref(files), 0, m, 1);
-	    std::thread right(Sort_Files, std::ref(files), m + 1, file_num - 1, 2);
-	    left.join();
-	    right.join();
-	    Merge_Files(files[0], files[m + 1], 0);
+		uint64_t m = file_num / 2 - 1;
+		std::thread left(Sort_Files, std::ref(files), 0, m, 1);
+		std::thread right(Sort_Files, std::ref(files), m + 1, file_num - 1, 2);
+		left.join();
+		right.join();
+		Merge_Files(files[0], files[m + 1], 0);
 	}
 	
 	std::cout << "\nres:\n"; 
@@ -184,8 +184,8 @@ int main() {
 			fout.write(reinterpret_cast<char *>(&pred_n), sizeof(uint64_t));
 			std::cout << pred_n << " ";
 		}
-	    flag = false;
-	    pred_n = n;
+		flag = false;
+		pred_n = n;
 	}
 	fout.close();
 	std::cout << "\n";
