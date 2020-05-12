@@ -190,4 +190,4 @@ int main() {
 	fout.close();
 	std::cout << "\n";
 	return 0;
-}
+} 
