@@ -119,10 +119,10 @@ void Merge(std::vector<uint64_t>& A, uint64_t l, uint64_t m, uint64_t r) {
 
 void MergeSort(std::vector<uint64_t>& A, uint64_t l, uint64_t r) {
 	if (l < r) {
-	    uint64_t m = l + (r - l) / 2;
-	    MergeSort(A, l, m);
-	    MergeSort(A, m + 1, r);
-	    Merge(A, l, m, r);
+		uint64_t m = l + (r - l) / 2;
+		MergeSort(A, l, m);
+		MergeSort(A, m + 1, r);
+		Merge(A, l, m, r);
 	}
 }
 
