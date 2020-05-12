@@ -157,7 +157,7 @@ int main() {
 	uint64_t size_of_input = Numbers_in_file("input.txt");
 	uint64_t file_num = size_of_input / MAX_SIZE;
 	if (size_of_input % MAX_SIZE)
-	    ++file_num;
+		++file_num; 
 	std::vector<f_class> files = make_files(file_num);
 	if (file_num != 1) {
 	    uint64_t m = file_num / 2 - 1;
