@@ -131,16 +131,16 @@ std::vector<f_class> make_files(uint64_t file_num) {
 	std::vector<uint64_t> data(MAX_SIZE);
 	std::vector<f_class> files(file_num);
 	for (size_t i = 0; i < file_num; ++i) {
-	    while (!fin.eof() && files[i].size_ < MAX_SIZE) {
-	        fin.read(reinterpret_cast<char *>(&data[files[i].size_]), sizeof(uint64_t));
-	        ++files[i].size_;
-	    }
-	    files[i].name = "file" + std::to_string(i) + ".txt";
-	    MergeSort(data, 0, files[i].size_ - 1);
-	    files[i].writing.open(files[i].name, std::ios_base::binary);
-	    for (size_t j = 0; j < files[i].size_; j++)
-	        files[i].writing.write(reinterpret_cast<char *> (&data[j]), sizeof(uint64_t));
-	    files[i].writing.close();
+		while (!fin.eof() && files[i].size_ < MAX_SIZE) {
+		    fin.read(reinterpret_cast<char *>(&data[files[i].size_]), sizeof(uint64_t));
+		    ++files[i].size_;
+		}
+		files[i].name = "file" + std::to_string(i) + ".txt";
+		MergeSort(data, 0, files[i].size_ - 1);
+		files[i].writing.open(files[i].name, std::ios_base::binary);
+		for (size_t j = 0; j < files[i].size_; j++)
+		    files[i].writing.write(reinterpret_cast<char *> (&data[j]), sizeof(uint64_t));
+		files[i].writing.close();
 	}
 	return files;
 }
