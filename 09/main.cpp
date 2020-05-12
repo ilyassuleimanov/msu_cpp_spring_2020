@@ -93,27 +93,27 @@ void Merge(std::vector<uint64_t>& A, uint64_t l, uint64_t m, uint64_t r) {
 	std::vector<uint64_t> L(left_len);
 	std::vector<uint64_t> R(right_len);
 	for (i = 0; i < left_len; ++i) {
-	    L[i] = A[l + i];
+		L[i] = A[l + i];
 	}
 	for (j = 0; j < right_len; ++j) {
-	    R[j] = A[m + 1 + j];
+		R[j] = A[m + 1 + j];
 	}
 	i = 0;
 	j = 0;
 	k = l;
 	while (i < left_len && j < right_len) {
 	    if (L[i] <= R[j]) {
-	        A[k++] = L[i++];
+			A[k++] = L[i++];
 	    }
 	    else {
-	        A[k++] = R[j++];
+			A[k++] = R[j++];
 	    }
 	}
 	while (i < left_len) {
-	    A[k++] = L[i++];
+		A[k++] = L[i++];
 	}
 	while (j < right_len) {
-	    A[k++] = R[j++];
+		A[k++] = R[j++];
 	}
 }
 
