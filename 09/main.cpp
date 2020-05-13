@@ -5,15 +5,15 @@
 #include <vector>
 #include <sstream>
 #include <fstream>
+#include <cassert>
 
 const uint64_t MAX_SIZE = 100;
 
-class f_class {
-	public:
-	    std::ifstream reading;
-	    std::ofstream writing;
-	    std::string name;
-	    uint64_t size_ = 0;
+struct file_interface {
+    std::ifstream reading;
+    std::ofstream writing;
+    std::string name;
+    uint64_t size_ = 0;
 };
 
 uint64_t Numbers_in_file(const std::string &name) {
@@ -25,7 +25,7 @@ uint64_t Numbers_in_file(const std::string &name) {
 	return (end - begin) / sizeof(uint64_t);
 }
 
-f_class& Merge_Files(f_class& left, f_class& right, uint64_t mark) {
+file_interface& Merge_Files(file_interface& left, file_interface& right, uint64_t mark) {
 	std::string name = "temp" + std::to_string(mark) + ".txt";
 	std::ofstream write_data(name, std::ios_base::binary);
 	left.reading.open(left.name, std::ios_base::binary);
@@ -76,11 +76,11 @@ f_class& Merge_Files(f_class& left, f_class& right, uint64_t mark) {
 	return left;
 }
 
-f_class& Sort_Files(std::vector<f_class>& files, uint64_t l, uint64_t r, const uint64_t mark) {
+file_interface& Sort_Files(std::vector<file_interface>& files, uint64_t l, uint64_t r, const uint64_t mark) {
 	if (l < r) {
 		uint64_t m = l + (r - l) / 2;
-		f_class& left = Sort_Files(files, l, m, mark);
-		f_class& right = Sort_Files(files, m + 1, r, mark);
+		file_interface& left = Sort_Files(files, l, m, mark);
+		file_interface& right = Sort_Files(files, m + 1, r, mark);
 		return Merge_Files(left, right, mark);
 	}
 	return files[l];
@@ -126,10 +126,10 @@ void MergeSort(std::vector<uint64_t>& A, uint64_t l, uint64_t r) {
 	}
 }
 
-std::vector<f_class> make_files(uint64_t file_num) {
-	std::ifstream fin("input.txt", std::ios_base::binary);
+std::vector<file_interface> make_files(uint64_t file_num, std::string input_name) {
+	std::ifstream fin(input_name, std::ios_base::binary);
 	std::vector<uint64_t> data(MAX_SIZE);
-	std::vector<f_class> files(file_num);
+	std::vector<file_interface> files(file_num);
 	for (size_t i = 0; i < file_num; ++i) {
 		while (!fin.eof() && files[i].size_ < MAX_SIZE) {
 		    fin.read(reinterpret_cast<char *>(&data[files[i].size_]), sizeof(uint64_t));
@@ -146,19 +146,19 @@ std::vector<f_class> make_files(uint64_t file_num) {
 }
 
 int main() {
-	std::ofstream file("input.txt", std::ios::binary | std::ios::out);
-	std::cout << "\ninput:\n";
-	for (int i = 0; i < 600; ++i) {
+	std::string input_name("input.txt");
+	std::ofstream file(input_name, std::ios::binary | std::ios::out);
+	for (int i = 0; i < 100000; ++i) {
 		auto *n = new uint64_t(std::rand() % 100);
 		file.write(reinterpret_cast<char *>(n), sizeof(uint64_t));
-		std::cout << *n << " ";
+		delete n;
 	}
 	file.close();
-	uint64_t size_of_input = Numbers_in_file("input.txt");
+	uint64_t size_of_input = Numbers_in_file(input_name);
 	uint64_t file_num = size_of_input / MAX_SIZE;
 	if (size_of_input % MAX_SIZE)
 		++file_num; 
-	std::vector<f_class> files = make_files(file_num);
+	std::vector<file_interface> files = make_files(file_num, input_name);
 	if (file_num != 1) {
 		uint64_t m = file_num / 2 - 1;
 		std::thread left(Sort_Files, std::ref(files), 0, m, 1);
@@ -166,9 +166,12 @@ int main() {
 		left.join();
 		right.join();
 		Merge_Files(files[0], files[m + 1], 0);
+		for (int i = 1; i != file_num; ++i) {
+			std::remove(files[i].name.c_str());
+		}
 	}
 	
-	std::cout << "\nres:\n"; 
+	std::cout << "\nWriting results to file \"output.txt\" and checking if it\'s sorted correctly:\n"; 
 	std::ofstream fout("output.txt", std::ios::binary | std::ios::out);
 	std::ifstream fin1("file0.txt", std::ios::binary | std::ios::in);
 	bool flag = true;
@@ -182,12 +185,13 @@ int main() {
 		}
 		if (!flag) {
 			fout.write(reinterpret_cast<char *>(&pred_n), sizeof(uint64_t));
-			std::cout << pred_n << " ";
+			assert(pred_n <= n);
 		}
 		flag = false;
 		pred_n = n;
 	}
 	fout.close();
-	std::cout << "\n";
+	std::cout << "SORTING WAS CORRECT\n";
+	std::remove(files[0].name.c_str());
 	return 0;
 } 
